@@ -5,19 +5,25 @@
 
 ### ThinR plugin introduce
 ***
-ThinR plug-in at compile time will remove all R.class except R$styleable.class off, and in the reference to replace the corresponding constant, so as to reduce the size of the package and reduce the effect of DEX number.
+
+
+This tool will remove all the class in R.java except the styleable class and replace the referance into the constant value. So you can reduce the dex files number and apk size.
 
 ### ThinR plugin principle
-R in the Android file, in addition to the styleable type, all fields are int type variables / constants, and in the running will not change. So you can compile time, record all the field name and the corresponding value of R, and then use the ASM tool to traverse all the class, the R field will be replaced by the reference to the corresponding constant.
+
+
+In the R.java of android project , except the class styleable , all the class fields are int object and will never change the value in the run-time.
+
+So in the compile-time we mark all the fields' name and their values,then use the asm tool to scan all the class files to replace the name into the value.
 
 
 ### HOW TO USE
 ***
-Outermost build.gradle add the following dependency:
+Add the dependency in the build.gralde of the project
 
  	classpath   'com.mogujie.gradle:ThinRPlugin:0.0.1'
  
-Add the following code in the inner gradle file:
+Add the following code in the inner gradle file of the module :
 
 	 apply plugin: 'thinR'
 	 
