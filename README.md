@@ -9,6 +9,8 @@
 
 This tool will remove all the class in R.java except the styleable class and replace the referance into the constant value. So you can reduce the dex files number and apk size.
 
+The plugin has been used on the mogujie app, the apk size is reduced by 1MB (the original apk size of 40MB), the number of DEX reduced by 3.
+
 ### ThinR plugin principle
 
 
