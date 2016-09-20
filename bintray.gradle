@@ -54,9 +54,11 @@ artifacts {
     archives sourcesJar
 }
 
+
+
 bintray {
-    user = bintrayUser
-    key = bintrayApikey
+    user = project.getProperties().get("bintrayUser")
+    key = project.getProperties().get("bintrayApikey")
     configurations = ['archives']
     pkg {
         repo = "maven"
