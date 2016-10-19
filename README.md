@@ -33,7 +33,18 @@ Add the following code in the inner gradle file of the module :
 	     // In order not to affect the daily development of compilation speed, debug version can not delete R
 	   skipThinRDebug = true
 	 }
-    
+
+If you are using Proguard, please keep the R class in the confusion file.
+
+	
+	-keepclassmembers class **.R$* {
+		 public static <fields>;
+	}
+	-keep class **.R {*;}
+	-keep class **.R$* {*;}
+	-keep class **.R$*
+	-keep class **.R
+	    
 ### Licence
 ***
 ThinRPlugin is licensed under the MIT license

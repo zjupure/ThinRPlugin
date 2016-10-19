@@ -27,7 +27,17 @@ android中的R文件，除了styleable类型外，所有字段都是int型变量
      //为了不影响日常开发的编译速度，debug版本可以不用删除R
    	 skipThinRDebug = true
  	 }
-    
+ 	 
+如果你使用了proguard,请在混淆文件中把R类keep住
+	
+	-keepclassmembers class **.R$* {
+		 public static <fields>;
+	}
+	-keep class **.R {*;}
+	-keep class **.R$* {*;}
+	-keep class **.R$*
+	-keep class **.R
+
 ### Licence
 ***
 ThinRPlugin is licensed under the MIT license
