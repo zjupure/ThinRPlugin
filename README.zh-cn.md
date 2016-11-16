@@ -17,7 +17,7 @@ android中的R文件，除了styleable类型外，所有字段都是int型变量
 ***
 在最外层的build.gradle中加入如下依赖：
 
- 	classpath   'com.mogujie.gradle:ThinRPlugin:0.0.1'
+ 	classpath   'com.mogujie.gradle:ThinRPlugin:0.0.2'
  
 在内层的gradle文件中加入如下代码：
 
@@ -37,6 +37,10 @@ android中的R文件，除了styleable类型外，所有字段都是int型变量
 	-keep class **.R$* {*;}
 	-keep class **.R$*
 	-keep class **.R
+
+### 注意
+***
+该插件不支持pre-dex编译模式(即必须开启multidex或proguard中的一个)
 
 ### Licence
 ***

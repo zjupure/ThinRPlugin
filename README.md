@@ -23,7 +23,7 @@ So in the compile-time we mark all the fields' name and their values,then use th
 ***
 Add the dependency in the build.gralde of the project
 
- 	classpath   'com.mogujie.gradle:ThinRPlugin:0.0.1'
+ 	classpath   'com.mogujie.gradle:ThinRPlugin:0.0.2'
  
 Add the following code in the inner gradle file of the module :
 
@@ -44,6 +44,10 @@ If you are using Proguard, please keep the R class in the confusion file.
 	-keep class **.R$* {*;}
 	-keep class **.R$*
 	-keep class **.R
+
+### Attention
+***
+The plugin does not support the pre-dex compilation model (i.e., one that must be turned on in multidex or Proguard)
 	    
 ### Licence
 ***
