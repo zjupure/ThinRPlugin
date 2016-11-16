@@ -60,7 +60,7 @@ class ContextProvider {
         ArrayList<File> jarFileList = new ArrayList()
         inputs.each { file ->
             PrintUtil.verbose("dex input ==> " + file)
-            if (filter.accept(file.absolutePath) ) {
+            if (filter.accept(file.absolutePath)) {
                 jarFileList.add(file)
             }
         }
@@ -81,7 +81,12 @@ class ContextProvider {
     }
 
     private String getManifestPackage(@NonNull File manifestFile) {
-        return new DefaultManifestParser().getPackage(manifestFile);
+        //在android build tools 2.2.2 及以上DefaultManifestParser的构造函数变了
+        try {
+            return new DefaultManifestParser().getPackage(manifestFile);
+        } catch (Throwable t) {
+            return new DefaultManifestParser(manifestFile).getPackage();
+        }
     }
 
     File getRClassDir() {

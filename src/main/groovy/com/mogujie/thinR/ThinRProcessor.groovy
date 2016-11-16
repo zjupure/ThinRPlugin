@@ -1,5 +1,6 @@
 package com.mogujie.thinR
 
+import org.gradle.api.GradleException
 import org.objectweb.asm.*
 
 import java.util.regex.Matcher
@@ -42,7 +43,14 @@ class ThinRProcessor {
     public static byte[] replaceRToConstant(byte[] bytes, Map<String, Integer> map) {
         ClassReader cr = new ClassReader(bytes)
         ClassWriter cw = new ClassWriter(cr, 0)
+        String className = ""
         ClassVisitor cv = new ClassVisitor(Opcodes.ASM4, cw) {
+            @Override
+            void visit(int version, int access, String name, String signature, String superName, String[] interfaces) {
+                PrintUtil.verbose("class name => " + name)
+                className = name;
+                super.visit(version, access, name, signature, superName, interfaces)
+            }
             @Override
             public MethodVisitor visitMethod(int access, String name, String desc,
                                              String signature, String[] exceptions) {
@@ -51,19 +59,26 @@ class ThinRProcessor {
                 mv = new MethodVisitor(Opcodes.ASM4, mv) {
 
                     @Override
-                    void visitFieldInsn(int i, String s, String s1, String s2) {
+                    void visitFieldInsn(int i, String owner, String fieldName, String fdesc) {
                         //xxx/R$mipmap.xxx
 
-                        def m = s =~ ThinRProcessor.FIELD_R_REGEX
+                        def m = owner =~ ThinRProcessor.FIELD_R_REGEX
                         assert m instanceof Matcher
                         if (m) {
                             String p = m[0] - "/"
-                            int value = map.get(p + "," + s1)
-                            PrintUtil.verbose("R  Ref==> " + s + "," + s1 + "," + " replace to " + value)
+                            int value = -1
+                            try {
+                                value = map.get(p + "," + fieldName)
+                            } catch (Exception e) {
+                                throw new GradleException(owner + ":" + fieldName
+                                        + " not found! in " + className + "'s " + name)
+                            }
+
+                            PrintUtil.verbose("R  Ref==> " + owner + "," + fieldName + "," + " replace to " + value)
                             Integer integer = new Integer(value)
                             super.visitLdcInsn(integer)
                         } else {
-                            super.visitFieldInsn(i, s, s1, s2)
+                            super.visitFieldInsn(i, owner, fieldName, fdesc)
                         }
 
                     }
