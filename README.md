@@ -23,7 +23,7 @@ So in the compile-time we mark all the fields' name and their values,then use th
 ***
 Add the dependency in the build.gralde of the project
 
- 	classpath   'com.mogujie.gradle:ThinRPlugin:0.0.2'
+ 	classpath   'com.mogujie.gradle:ThinRPlugin:0.0.3'
  
 Add the following code in the inner gradle file of the module :
 
