@@ -44,6 +44,19 @@ If you are using Proguard, please keep the R class in the confusion file.
 	-keep class **.R$* {*;}
 	-keep class **.R$*
 	-keep class **.R
+	
+if you are using ButterKnife either, please keep the R2 class in the confusion file.
+
+
+    -keepclassmembers class **.R2$* {
+		 public static <fields>;
+	}
+    -keep class **.R2 {*;}
+    -keep class **.R2$* {*;}
+    -keep class **.R2$*
+    -keep class **.R2
+	
+
 
 ### Attention
 ***
@@ -57,3 +70,4 @@ ThinRPlugin is licensed under the MIT license
 
 
 In case of using the issue to the wangzhi@meili-inc.com please!
+

@@ -10,9 +10,10 @@ import java.util.regex.Matcher
  */
 class ThinRProcessor {
     HashMap<String, Integer> map
-    static def MATCHER_NO_STYLEABLE = '''.*/R\\$(?!styleable).*?\\.class|.*/R\\.class'''
-    static def FIELD_R_REGEX = '''/R\\$(?!styleable).*'''
+    static def MATCHER_NO_STYLEABLE = '''.*/R2?\\$(?!styleable).*?\\.class|.*/R2?\\.class'''
+    static def FIELD_R_REGEX = '''/R2?\\$(?!styleable).*'''
     static def MATCHER_R = '''.*/R\\$.*\\.class|.*/R\\.class'''
+    static def MATCHER_R2 = '''.*/R2?\\$.*\\.class|.*/R2?\\.class'''
 
 
     ThinRProcessor(File rClassDir) {
@@ -31,7 +32,7 @@ class ThinRProcessor {
 
 
     byte[] getEntryBytes(String path, byte[] bytes) {
-        if (!path.endsWith(".class") || path ==~ MATCHER_R) {
+        if (!path.endsWith(".class") || path ==~ MATCHER_R2) {
             PrintUtil.verbose("is origin r or not class  ")
             return bytes
         } else {

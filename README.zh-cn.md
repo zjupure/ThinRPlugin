@@ -37,6 +37,17 @@ android中的R文件，除了styleable类型外，所有字段都是int型变量
 	-keep class **.R$* {*;}
 	-keep class **.R$*
 	-keep class **.R
+	
+如果你还使用了ButterKnife,请在混淆文件中把R2类keep住
+	
+	-keepclassmembers class **.R2$* {
+		 public static <fields>;
+	}
+	-keep class **.R2 {*;}
+	-keep class **.R2$* {*;}
+	-keep class **.R2$*
+	-keep class **.R2
+
 
 ### 注意
 ***
