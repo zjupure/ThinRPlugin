@@ -26,6 +26,11 @@ class ContextProvider {
         if (isHighVersion) {
             compileTask = project.tasks.findByName("compile${varNameCap}JavaWithJavac")
             dexTask = project.tasks.findByName("transformClassesWithDexFor${varNameCap}")
+
+            // android build tools 3.0.0 task name has changed
+            if (dexTask == null) {
+                dexTask = project.tasks.findByName("transformClassesWithDexBuilderFor${varNameCap}")
+            }
         } else {
             compileTask = project.tasks.findByName("compile${varNameCap}Java")
             dexTask = project.tasks.findByName("dex${varNameCap}")
@@ -34,21 +39,19 @@ class ContextProvider {
         processManifestTask = project.tasks.findByName("process${varNameCap}Manifest")
 
         if (dexTask == null) {
-            throw new GradleException("Can not found dex task!")
+            throw new GradleException("Can not found dex task for ${varNameCap}!")
         }
-
     }
 
     boolean isHighVersion() {
-        boolean isHighVersion = true;
+        boolean isHighVersion = true
         try {
-            Class clazz = com.android.build.gradle.tasks.Dex;
-            isHighVersion = false;
+            Class clazz = com.android.build.gradle.tasks.Dex
+            isHighVersion = false
         } catch (Throwable ignored) {
             // ignored
         }
         return isHighVersion
-
     }
 
     interface Filter {
@@ -83,9 +86,9 @@ class ContextProvider {
     private String getManifestPackage(@NonNull File manifestFile) {
         //在android build tools 2.2.2 及以上DefaultManifestParser的构造函数变了
         try {
-            return new DefaultManifestParser().getPackage(manifestFile);
+            return new DefaultManifestParser().getPackage(manifestFile)
         } catch (Throwable t) {
-            return new DefaultManifestParser(manifestFile).getPackage();
+            return new DefaultManifestParser(manifestFile).getPackage()
         }
     }
 
@@ -107,6 +110,5 @@ class ContextProvider {
     public boolean isSkipThinR(ThinRExtension extension) {
         return (extension.skipThinR || (extension.skipThinRDebug && varNameCap.toLowerCase().contains("debug")))
     }
-
 
 }
